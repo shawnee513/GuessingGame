@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".GameFragment">
+
+    <TextView
+        android:id="@+id/game_tv_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:letterSpacing=".1"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/game_tv_lives"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:letterSpacing=".1"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/game_tv_incorrect_guesses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/game_et_guess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Guess a letter"
+        android:inputType="text"
+        android:maxLength="1"
+        android:minHeight="48dp"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/game_bt_guess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Guess!" />
+
+</LinearLayout>
