@@ -25,9 +25,10 @@ class ResultFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(ResultViewModel::class.java)
 
         //tell user the result of the game
-        viewModel.result.observe(viewLifecycleOwner, Observer {
+        binding.resultTvResult.text = viewModel.result.value.toString()
+        /*viewModel.result.observe(viewLifecycleOwner, Observer {
                 result -> binding.resultTvResult.text = result
-        })
+        })*/
 
         //set onclick listeners
         binding.resultBtPlayAgain.setOnClickListener {
