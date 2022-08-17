@@ -1,49 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".GameFragment">
 
-    <TextView
-        android:id="@+id/game_tv_word"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:letterSpacing=".1"
-        android:textSize="36sp" />
+    <data>
+        <variable
+            name="gameViewModel"
+            type="com.example.guessinggame.GameViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/game_tv_lives"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:letterSpacing=".1"
-        android:textSize="36sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/game_tv_incorrect_guesses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/game_tv_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:letterSpacing=".1"
+            android:textSize="36sp"
+            android:text="@{gameViewModel.wordHint}"/>
+    <!-- You pass arguments to a string resource like this:
+         android:text="@{@string/string_name(arg1, arg2))}"-->
+        <TextView
+            android:id="@+id/game_tv_lives"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:letterSpacing=".1"
+            android:textSize="36sp"
+            android:text="@{@string/lives_left(gameViewModel.lives)}"/>
 
-    <EditText
-        android:id="@+id/game_et_guess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Guess a letter"
-        android:inputType="text"
-        android:maxLength="1"
-        android:minHeight="48dp"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/game_tv_incorrect_guesses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@{@string/incorrect_guesses(gameViewModel.incorrectGuesses)}"/>
 
-    <Button
-        android:id="@+id/game_bt_guess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Guess!" />
+        <EditText
+            android:id="@+id/game_et_guess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Guess a letter"
+            android:inputType="text"
+            android:maxLength="1"
+            android:minHeight="48dp"
+            android:textSize="16sp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/game_bt_guess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Guess!" />
+
+        <Button
+            android:id="@+id/game_bt_endGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="End Game"
+            android:onClick="@{() -> gameViewModel.endGame()}" />
+    </LinearLayout>
+</layout>
+
+

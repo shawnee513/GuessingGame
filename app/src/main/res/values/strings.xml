@@ -2,4 +2,12 @@
     <string name="app_name">Guessing Game</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- %d and %s are used to refer to arguments passed to the string.
+     %d is for a number, %s is for a string.
+     If you have multiple arguments, you specify them with numbers, such
+     as if you had the first argument is a number and the second argument
+     is a string, you would do %1$d for the first argument and %2$s for
+     the second argument. -->
+    <string name="lives_left">You have %d lives left</string>
+    <string name="incorrect_guesses">Incorrect guesses: %s</string>
 </resources>

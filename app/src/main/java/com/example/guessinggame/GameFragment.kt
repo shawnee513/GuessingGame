@@ -25,7 +25,12 @@ class GameFragment : Fragment() {
         binding = FragmentGameBinding.inflate(inflater)
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
-        //Set up observers
+        //Set up dataBinding
+        binding.gameViewModel = viewModel
+        //for live data
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        /* Don't need these observers since they are using data binding
         viewModel.wordHint.observe(viewLifecycleOwner, Observer {
                 wordHint -> binding.gameTvWord.text = wordHint.toString()
         })
@@ -35,6 +40,9 @@ class GameFragment : Fragment() {
         viewModel.incorrectGuesses.observe(viewLifecycleOwner, Observer {
                 incorrectGuesses -> binding.gameTvIncorrectGuesses.text = incorrectGuesses
         })
+
+        */
+        //Set up observers
         viewModel.result.observe(viewLifecycleOwner, Observer{
             result -> if(result != "") {findNavController().navigate(GameFragmentDirections.actionGameFragmentToResultFragment(result))}
         })

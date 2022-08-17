@@ -31,8 +31,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    /*dataBinding generates a binding class for every layout that has a
+    root <layout> element. viewBinding generates a binding class for
+    every layout. If you are using dataBinding, but not every layout
+    will use it, you may also want to include viewBinding, or make every
+    layout have a <layout> root element. Otherwise, dataBinding includes all
+    of the functionality that viewBinding has, so you don't need to include
+    both.If you're not using dataBinding, obviously just do viewBinding true*/
     buildFeatures {
-        viewBinding true
+        dataBinding true
     }
 }
 
