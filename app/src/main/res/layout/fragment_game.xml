@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".GameFragment">
 
@@ -13,16 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/customborder"
+        >
 
         <TextView
             android:id="@+id/game_tv_word"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/cultured"
             android:letterSpacing=".1"
-            android:textSize="36sp"
-            android:text="@{gameViewModel.wordHint}"/>
+            android:text="@{gameViewModel.wordHint}"
+            android:textColor="@color/dark_jungle_green"
+            android:textSize="36sp" />
     <!-- You pass arguments to a string resource like this:
          android:text="@{@string/string_name(arg1, arg2))}"-->
         <TextView
@@ -30,15 +36,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/cultured"
             android:letterSpacing=".1"
-            android:textSize="36sp"
+            android:textColor="@color/dark_jungle_green"
+            android:textSize="30sp"
+            android:textAlignment="center"
             android:text="@{@string/lives_left(gameViewModel.lives)}"/>
 
         <TextView
             android:id="@+id/game_tv_incorrect_guesses"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:background="@color/cultured"
+            android:textSize="20sp"
+            android:textColor="@color/dark_jungle_green"
             android:text="@{@string/incorrect_guesses(gameViewModel.incorrectGuesses)}"/>
 
         <EditText
@@ -46,24 +57,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Guess a letter"
+            android:background="@color/cultured"
             android:inputType="text"
             android:maxLength="1"
             android:minHeight="48dp"
-            android:textSize="16sp" />
+            android:textSize="20sp"
+            android:textColorHint="@color/dark_jungle_green"
+            android:textColor="@color/dark_jungle_green"/>
 
         <Button
             android:id="@+id/game_bt_guess"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Guess!" />
+            android:backgroundTint="@color/polished_pine"
+            android:text="Guess!"
+            android:textSize="20sp"
+            app:cornerRadius="10dp" />
 
         <Button
             android:id="@+id/game_bt_endGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:backgroundTint="@color/polished_pine"
             android:text="End Game"
+            android:textSize="20sp"
+            app:cornerRadius="10dp"
             android:onClick="@{() -> gameViewModel.endGame()}" />
     </LinearLayout>
 </layout>
