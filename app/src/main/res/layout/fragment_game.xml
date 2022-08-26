@@ -85,6 +85,11 @@
             android:textSize="20sp"
             app:cornerRadius="10dp"
             android:onClick="@{() -> gameViewModel.endGame()}" />
+
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/game_cv_composeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>
 
