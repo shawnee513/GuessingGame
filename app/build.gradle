@@ -39,7 +39,6 @@ android {
     of the functionality that viewBinding has, so you don't need to include
     both.If you're not using dataBinding, obviously just do viewBinding true*/
     buildFeatures {
-        dataBinding true
         //for compose
         compose true
     }

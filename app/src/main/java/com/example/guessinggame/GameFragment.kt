@@ -6,34 +6,46 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.guessinggame.databinding.FragmentGameBinding
 import java.util.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.platform.ComposeView
 import androidx.navigation.findNavController
 
 class GameFragment : Fragment() {
-    private lateinit var binding: FragmentGameBinding
     private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         // Inflate the layout for this fragment
-        binding = FragmentGameBinding.inflate(inflater).apply {
-            gameCvComposeView.setContent {
+
+        //Set up observers
+        viewModel.result.observe(viewLifecycleOwner, Observer{
+                result -> if(result != "") {findNavController().navigate(GameFragmentDirections.actionGameFragmentToResultFragment(result))}
+        })
+
+        return ComposeView(requireContext()).apply {
+            setContent {
                 MaterialTheme {
                     Surface {
                         GameFragmentContent(viewModel)
@@ -41,37 +53,6 @@ class GameFragment : Fragment() {
                 }
             }
         }
-        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
-
-        //Set up dataBinding
-        binding.gameViewModel = viewModel
-        //for live data
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        /* Don't need these observers since they are using data binding
-        viewModel.wordHint.observe(viewLifecycleOwner, Observer {
-                wordHint -> binding.gameTvWord.text = wordHint.toString()
-        })
-        viewModel.lives.observe(viewLifecycleOwner, Observer {
-                lives -> binding.gameTvLives.text = "You have $lives lives left"
-        })
-        viewModel.incorrectGuesses.observe(viewLifecycleOwner, Observer {
-                incorrectGuesses -> binding.gameTvIncorrectGuesses.text = incorrectGuesses
-        })
-
-        */
-        //Set up observers
-        viewModel.result.observe(viewLifecycleOwner, Observer{
-            result -> if(result != "") {findNavController().navigate(GameFragmentDirections.actionGameFragmentToResultFragment(result))}
-        })
-
-        //set on click listeners
-        binding.gameBtGuess.setOnClickListener {
-            viewModel.makeGuess(binding.gameEtGuess.text.toString())
-            binding.gameEtGuess.setText("")
-        }
-
-        return binding.root
     }
 }
 @Composable
@@ -109,20 +90,55 @@ fun GuessButton(clicked: () -> Unit) {
 }
 
 @Composable
+fun IncorrectGuessesText (viewModel: GameViewModel) {
+    val incorrectGuesses = viewModel.incorrectGuesses.observeAsState()
+    incorrectGuesses.value?.let{
+        //incorrect_guesses is a string resource, and we are passing incorrectGuesses.value as an argument to it
+        Text(stringResource(R.string.incorrect_guesses, it))
+    }
+}
+
+@Composable
+fun LivesLeftText (viewModel: GameViewModel) {
+    val livesLeft = viewModel.lives.observeAsState()
+    livesLeft.value?.let{
+        Text(stringResource(R.string.lives_left, it))
+    }
+}
+
+@Composable
+fun WordHintDisplay (viewModel: GameViewModel) {
+    val wordHint = viewModel.wordHint.observeAsState()
+    wordHint.value?.let {
+        Text(text = it,
+        letterSpacing = 0.1 .em,
+        fontSize = 36 .sp)
+    }
+}
+
+@Composable
 fun GameFragmentContent(viewModel: GameViewModel) {
     val guess = remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        EnterGuess(guess.value) { guess.value = it[0].toString() }
+        Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center) {
+            WordHintDisplay(viewModel)
+        }
+        LivesLeftText(viewModel)
+        IncorrectGuessesText(viewModel)
+        EnterGuess(guess.value) { if(guess.value.length > 1) guess.value = it[0].toString() else guess.value = it }
+
+        Column(modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally) {
+            GuessButton {
+                viewModel.makeGuess(guess.value)
+                guess.value = ""
+            }
+            FinishGameButton { viewModel.endGame()}
+        }
     }
 
-    Column(modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-        GuessButton {
-            viewModel.makeGuess(guess.value)
-            guess.value = ""
-        }
-        FinishGameButton { viewModel.endGame()}
-    }
+
 
 }
